@@ -15,7 +15,7 @@ public class ProjectsRestController {
 
     List<Projects> projects = new ArrayList<>();
 
-    @GetMapping("/api/projects")
+    @GetMapping("/api/project")
     public List<Projects> getAllProjects() {
         return projects;
     }

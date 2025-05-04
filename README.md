@@ -9,3 +9,4 @@
 
 # If you want to create jr file run:-  `mvn clean package`
 # Run in production mode:- `java -jar target/javaB7-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod`
+# Run inside docker in dev mode:- `docker run -d --name myapp-dev-container -e SPRING_PROFILES_ACTIVE=dev -p 8080:8080 myapp-image`
