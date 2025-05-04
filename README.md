@@ -6,3 +6,6 @@
 2. run your project on specific port - `docker run -d -p 8000:8080 portfolio portfolio-container`
 # Self deployed live url
 1. Live url - https://javab7-protfolio-deploy.onrender.com
+
+# If you want to create jr file run:-  `mvn clean package`
+# Run in production mode:- `java -jar target/javaB7-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod`
