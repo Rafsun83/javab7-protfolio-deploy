@@ -1,7 +1,9 @@
-package com.javaB7.javaB7.controller;
+package com.javaB7.javaB7.controller.rest;
 
 import com.javaB7.javaB7.model.domain.Projects;
 import com.javaB7.javaB7.model.dto.CreateProject;
+import com.javaB7.javaB7.service.ProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,20 +15,16 @@ import java.util.List;
 @RestController
 public class ProjectsRestController {
 
-    List<Projects> projects = new ArrayList<>();
+    @Autowired
+    ProjectService projectservice;
 
     @GetMapping("/api/projects")
     public List<Projects> getAllProjects() {
-        return projects;
+        return projectservice.getAllProjects();
     }
 
     @PostMapping("/api/projects")
     public Projects createProject(@RequestBody CreateProject createProject) {
-        String name = createProject.getName();
-        String description = createProject.getDescription();
-
-        Projects projects1 = new Projects(name, description);
-        projects.add(projects1);
-        return projects1;
+        return projectservice.createProject(createProject);
     }
 }

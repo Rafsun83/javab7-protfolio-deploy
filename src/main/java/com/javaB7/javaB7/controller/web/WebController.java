@@ -1,4 +1,4 @@
-package com.javaB7.javaB7.controller;
+package com.javaB7.javaB7.controller.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
