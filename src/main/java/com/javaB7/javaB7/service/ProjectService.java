@@ -1,14 +1,16 @@
 package com.javaB7.javaB7.service;
 
+import com.javaB7.javaB7.exception.NotFoundException;
 import com.javaB7.javaB7.model.domain.Projects;
 import com.javaB7.javaB7.model.dto.CreateProject;
+import com.javaB7.javaB7.model.dto.UpdateProject;
 import com.javaB7.javaB7.persistence.entity.ProjectEntity;
 import com.javaB7.javaB7.persistence.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectService {
@@ -45,5 +47,38 @@ public class ProjectService {
         String projectEntityDescription = projectEntity.getDescription();
         return new Projects(projectId, projectEntityName, projectEntityDescription);
 
+    }
+
+    public Projects getProjectById(Long projectId) throws NotFoundException {
+        Optional<ProjectEntity> projectEntityOptional = projectRepository.findById(projectId);
+        if (projectEntityOptional.isEmpty()) {
+            throw new NotFoundException("Project not found"); // bad practice
+        }
+
+        //Query on database
+        ProjectEntity projectEntity = projectRepository.findById(projectId).orElse(null);
+        assert projectEntity != null;
+        Long projectEntityId = projectEntity.getId();
+        String projectEntityName = projectEntity.getName();
+        String projectEntityDescription = projectEntity.getDescription();
+
+        //Map entity to domain object and return
+        return new Projects(projectEntityId, projectEntityName, projectEntityDescription);
+    }
+
+    public void updateProject(Long projectId, UpdateProject projectRequest) throws NotFoundException {
+        //Request value
+        String description = projectRequest.getDescription();
+
+        //Query existing project
+        //ProjectEntity projectEntity = projectRepository.findById(projectId).orElse(null);
+        Optional<ProjectEntity> projectEntityOptional = projectRepository.findById(projectId);
+        if(projectEntityOptional.isEmpty()){
+            throw new NotFoundException("Project not found");
+        }
+
+        ProjectEntity projectEntity = projectEntityOptional.get();
+        projectEntity.setDescription(description);
+        projectRepository.save(projectEntity);
     }
 }
