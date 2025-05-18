@@ -81,4 +81,16 @@ public class ProjectService {
         projectEntity.setDescription(description);
         projectRepository.save(projectEntity);
     }
+
+    public void deleteProject(Long projectId) throws NotFoundException {
+
+        //QUERY EXISTING PROJECT
+        Optional<ProjectEntity> projectEntityOptional = projectRepository.findById(projectId);
+        if(projectEntityOptional.isEmpty()){
+            throw new NotFoundException("Project not found");
+        }
+
+        ProjectEntity projectEntity = projectEntityOptional.get();
+        projectRepository.delete(projectEntity);
+    }
 }

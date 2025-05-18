@@ -39,6 +39,7 @@ public class ProjectsRestController {
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Get project by Id")
     public ResponseEntity<Projects> getProjectById(@PathVariable Long id) {
         Projects projects;
         try{
@@ -51,6 +52,8 @@ public class ProjectsRestController {
     return ResponseEntity.ok(projects);
     }
 
+    @PutMapping("{id}")
+    @Operation(summary = "Update existing project")
     public void updateProjectById(@PathVariable Long id, @RequestBody UpdateProject updateProject) {
         try{
             projectservice.updateProject(id, updateProject);
@@ -58,6 +61,18 @@ public class ProjectsRestController {
              ResponseEntity.notFound().build();
         } catch (Exception e) {
              ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("{id}")
+    @Operation(summary = "Delete project item")
+    public void deleteProjectById(@PathVariable Long id)  {
+        try{
+            projectservice.deleteProject(id);
+        } catch (NotFoundException e){
+            ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            ResponseEntity.internalServerError().build();
         }
     }
 }
